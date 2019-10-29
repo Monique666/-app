@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <van-row>
-      <img style="width:100%" src="../../assets/images/home_02.png" alt="">
+      <img style="width:100%" src="../../assets/images/homea.gif" alt="">
     </van-row>
     <van-row>
       <van-grid :column-num="3">
