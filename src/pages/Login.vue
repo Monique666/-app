@@ -14,24 +14,42 @@ border-radius: 50%;">
         </div>
       </div>
       <div class="login_content">
-        <van-cell-group>
-          <van-field v-model="value" placeholder="请输入用户名" />
-        </van-cell-group>
-        <van-cell-group>
-          <van-field v-model="value" placeholder="请输入密码" />
-        </van-cell-group>
+        <div class="form">
+          <van-cell-group>
+            <van-field v-model="form.username" required clearable label="用户名" icon="question-o" placeholder="请输入用户名" />
+          </van-cell-group>
+          <van-cell-group>
+            <van-field v-model="form.password" type="password" label="密码" required placeholder="请输入密码" />
+          </van-cell-group>
+        </div>
+        <div class="login_submit">
+          <van-button round type="info" style="width:80%" id="button" @click="loginHandler">登录</van-button>
+        </div>
       </div>
-      <div class="login_submit">
-        <van-button round type="info" style="width:80%" id="button" url="/home">登录</van-button>
-      </div>
-      
 
     </div>
   </div>
 </template>
 <script>
+import {mapActions} from 'vuex'
 export default {
-  
+  data(){
+    return{
+    form:{
+      type:'customer'
+    }
+  }
+},
+methods:{
+    ...mapActions("user",["login"]),
+    loginHandler(){
+      this.login(this.form)
+      .then(()=>{
+        //跳转到首页
+        this.$router.push({path:'/home'})
+      })
+    }
+  }
 }
 </script>
 <style scoped>

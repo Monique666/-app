@@ -6,12 +6,14 @@ import category from './category'
 import product from './product'
 import customer from './customer'
 import address from './address'
+import user from './user'
 
 export default new Vuex.Store({
   modules:{
     category,
     product,
     customer,
-    address
+    address,
+    user
   }
 })
