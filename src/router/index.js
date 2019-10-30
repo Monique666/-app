@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Manager from '../pages/manager/Layout.vue'
+import Address from '../pages/manager/Address.vue'
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,10 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('../pages/Login.vue')
+  },{
+    path: '/address',
+    name: 'address',
+    component: () => import('../pages/manager/Address.vue')
   }
 ]
 
