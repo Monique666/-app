@@ -60,6 +60,7 @@ export default {
     // this.activeKey = index;
     // this.categoryId = this.categories[index].id;
     // // 索引查找
+    
     this.findAllCategories();
     this.findAllProducts();
   },
@@ -76,6 +77,20 @@ export default {
     },
     toConfirmOrderHandler(){
       this.$router.push('/confirmOrder')
+    },
+    // 点击左侧栏目，根据栏目查找对应商品列表
+    findProductsHandler(id){
+      this.categoryId = id;
+    },
+    stepChangerHandler(p){
+      let line = {
+        productId:p.id,
+        productName:p.name,
+        price:p.price,
+        number:p.number
+      }
+      // 修改购物车
+      this.alterShopCar(line);
     }
   }
 }

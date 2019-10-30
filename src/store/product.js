@@ -1,73 +1,54 @@
-import {get,post,post_array} from '../http/axios';
-
+import {get} from "../http/axios"
 export default {
   namespaced:true,
   state:{
-    products:[],
-    visible:false,
-    title:"添加产品信息"
+    products:[]
   },
   getters:{
-    productSize(state){
-      return state.products.length;
-    },
-    orderProduct:(state)=>{
-      return function(flag){
-        state.products.sort((a,b)=>{
-          if(a[flag] > b[flag]){
-            return -1;
-          } else {
-            return 1;
-          }
+    // 根据栏目id在products中筛选出符合条件的值
+    getProductsByCategoryId(state){
+      return (categoryId)=>{
+        return state.products.filter((item)=>{
+          return item.categoryId === categoryId
         })
-        return state.products;
+      }
+    },
+    // 获取前几个
+    getProducts(state){
+      return function(n){
+        return state.products.slice(0,n)
       }
     }
   },
   mutations:{
-    showModal(state){
-      state.visible = true;
-    },
-    closeModal(state){
-      state.visible = false;
-    },
-    refreshProducts(state,products){
-      state.products = products;
-    },
-    setTitle(state,title){
-      state.title = title;
-    }
+   resetProducts(state,products){
+     state.products = products;
+   }
   },
   actions:{
-    async batchDeleteProduct(context,ids){
-      // 1. 批量删除
-      let response = await post_array("/product/batchDelete",{ids})
-      // 2. 分发
-      context.dispatch("findAllProducts");
-      // 3. 返回结果
-      return response;
+    // 通过栏目id查询商品
+   findProductsByCategoryId({commit},id){
+    get("/product/findByCategoryId?id="+id)
+      .then((result)=>{
+        // 为product添加一个number属性
+        result.data.forEach((item)=>{
+          item.number = 0;
+        })
+        // 将查询到的数据更新到state中
+        commit("resetProducts",result.data)
+      })
     },
-    async deleteProductById(context,id){
-      let response = await get("/product/deleteById?id="+id);
-      context.dispatch("findAllProducts");
-      return response;
-    },
-    async findAllProducts(context){
-      // 1. ajax查询
-      let response = await get("/product/findAll");
-      // 2. 将查询结果更新到state中
-      context.commit("refreshProducts",response.data);
-    },
-    // payload 顾客信息
-    async saveOrUpdateProduct({commit,dispatch},payload){
-      // 1. 保存或更新
-      let response = await post("/product/saveOrUpdate",payload)
-      // 2. 刷新页面
-      dispatch("findAllProducts");
-      // 3. 关闭模态框
-      commit("closeModal");
-      // 4. 提示
-      return response;
+    // 查询所有的商品信息
+    findAllProducts({commit}){
+      get("/product/findAll")
+      .then((result)=>{
+        // 为product添加一个number属性
+        result.data.forEach((item)=>{
+          item.number = 0;
+        })
+        commit("resetProducts",result.data)
+      })
     }
+      
   }
 }
