@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Manager from '../pages/manager/Layout.vue'
 import Address from '../pages/manager/Address.vue'
+import Category from '../pages/manager/Category.vue'
+import ConfirmOrder from '../pages/manager/ConfirmOrder.vue'
 
 Vue.use(VueRouter)
 
@@ -29,7 +31,16 @@ const routes = [
     path: '/address',
     name: 'address',
     component: () => import('../pages/manager/Address.vue')
+  },{
+    path:'/category/',
+    name:'category',
+    component:() =>import('../pages/manager/Category.vue')
+  },{
+    path:'/confirmorder',
+    name:'confirmorder',
+    component:() =>import('../pages/manager/ConfirmOrder.vue')
   }
+  
 ]
 
 const router = new VueRouter({

@@ -8,19 +8,9 @@ export default {
     title:"添加顾客信息"
   },
   getters:{
-    categorySize(state){
-      return state.categories.length;
-    },
-    orderCategory:(state)=>{
-      return function(flag){
-        state.categories.sort((a,b)=>{
-          if(a[flag] > b[flag]){
-            return -1;
-          } else {
-            return 1;
-          }
-        })
-        return state.categories;
+    getCategories(state){
+      return function(n){
+        return state.categories.slice(0,n)
       }
     }
   },
@@ -36,6 +26,9 @@ export default {
     },
     setTitle(state,title){
       state.title = title;
+    },
+    resetCategories(state,categories){
+      state.categories = categories;
     }
   },
   actions:{
